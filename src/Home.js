@@ -1,75 +1,105 @@
 import React, { useState } from "react";
-import {
-    FormContainer,
-    Input,
-    URL,
-    URLContainer,
-    Button,
-    Container,
-    Navbar,
-    Logo,
-    ContactContainer,
-    ContactTitle,
-    ContactText,
-    ContactLink,
-    InputContainer,
-    URLTitle,
-} from "./Home.styled";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import "./Home.css";
 
-const Home = () => {
+function Home() {
     const [url, setUrl] = useState("");
 
     const handleSubmit = (event) => {
-        event.preventDefault;
+        event.preventDefault();
+        // do something with the URL
+        console.log(url);
     };
 
-    const handleChange = (event) => {
+    const handleUrlChange = (event) => {
         setUrl(event.target.value);
     };
 
     return (
+        <div className="App">
+            <header className="App-header">
+                <h1>USF Logo Detector</h1>
+            </header>
+            <nav className="App-nav">
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/contact">Contact</Link>
+                    </li>
+                </ul>
+            </nav>
+            <main className="App-main">
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        URL:
+                        <input
+                            type="text"
+                            value={url}
+                            onChange={handleUrlChange}
+                        />
+                    </label>
+                    <button type="submit">Submit</button>
+                </form>
+            </main>
+            <footer className="App-footer">
+                <p>© Built by Raed, Mateus, Mohammed, Vincent</p>
+            </footer>
+        </div>
+    );
+}
+
+function Contact() {
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Contact Us</h1>
+            </header>
+            <nav className="App-nav">
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/contact">Contact</Link>
+                    </li>
+                </ul>
+            </nav>
+            <main className="App-main">
+                <p>Fill out the form below to get in touch:</p>
+                <form>
+                    <label>
+                        Name:
+                        <input type="text" />
+                    </label>
+                    <label>
+                        Email:
+                        <input type="email" />
+                    </label>
+                    <label>
+                        Message:
+                        <textarea />
+                    </label>
+                    <button type="submit">Send</button>
+                </form>
+            </main>
+            <footer className="App-footer">
+                <p>© Built by Raed, Mateus, Mohammed, Vincent</p>
+            </footer>
+        </div>
+    );
+}
+
+function AppRouter() {
+    return (
         <Router>
-            <Container>
-                <Navbar>
-                    <Logo to="/">My Website</Logo>
-                    <ContactLink to="/contact">Contact Us</ContactLink>
-                </Navbar>
-                <Switch>
-                    <Route exact path="/">
-                        <FormContainer>
-                            <form onSubmit={handleSubmit}>
-                                <InputContainer>
-                                    <Input
-                                        type="text"
-                                        placeholder="Enter URL"
-                                        value={url}
-                                        onChange={handleChange}
-                                    />
-                                    <Button type="submit">Submit</Button>
-                                </InputContainer>
-                            </form>
-                            {url && (
-                                <URLContainer>
-                                    <URLTitle>Entered URL:</URLTitle>
-                                    <URL>{url}</URL>
-                                </URLContainer>
-                            )}
-                        </FormContainer>
-                    </Route>
-                    <Route path="/contact">
-                        <ContactContainer>
-                            <ContactTitle>Contact Us</ContactTitle>
-                            <ContactText>
-                                If you have any questions or comments, please
-                                send us an email at contact@mywebsite.com.
-                            </ContactText>
-                        </ContactContainer>
-                    </Route>
-                </Switch>
-            </Container>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/contact" element={<Contact />} />
+            </Routes>
         </Router>
     );
-};
+}
 
-export default Home;
+export default AppRouter;
